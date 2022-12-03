@@ -8,7 +8,7 @@
         <td>{{marche.heure_fermeture}}</td>
         <td>{{marche.categorie_produit}}</td>
         <td>
-            <button class="mini ui blue button">Modifier</button>
+            <button class="mini ui blue button"  @click="onEdit">Modifier</button>
             <button class="mini ui red button" @click="onDelete">Supprimmer</button>
         </td>
     </tr>
@@ -26,6 +26,10 @@
       onDelete(){
         //window.console.log("marché deleted " + this.marche.id);
         this.$emit("onDelete", this.marche.id);
+      },
+      onEdit(){
+         //window.console.log("marché edited " + this.marche.id);
+         this.$emit("onEdit", this.marche);
       }
     }
   }

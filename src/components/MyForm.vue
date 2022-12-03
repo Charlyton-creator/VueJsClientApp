@@ -45,7 +45,7 @@
                     <input type="number" name="nbre_hangars" id="" placeholder="3" @change="handleChange" :value="form.nbre_hangars">
                 </div>
             </div> 
-            <div class="ui button primary" tabindex="0" @click="onFormSubmit">Enregistrer le marché</div>
+            <button :class="btnClass" tabindex="0" @click="onFormSubmit">{{ btnName }}</button>
         </form>
     </div>
   </template>
@@ -53,6 +53,13 @@
   <script>
   export default {
     name : "MyForm",
+    data(){
+        return {
+            btnName: "Enregistrer le marché",
+            btnClass: "ui button primary submit-button"
+
+        };
+    },
     props : {
         form: {
             type: Object
@@ -72,6 +79,9 @@
             if(this.formValidation()){
                 //window.console.log("ready to submit");
                 this.$emit("onFormSubmit", this.form);
+                //change the button to save button
+                this.btnName = "Enregistrer le marché";
+                this.btnClass = "ui button primary submit-button";
                 //clear form field
                 this.clearFormFields();
             }
@@ -99,18 +109,15 @@
             }
             return true;
         },
-        clearFormFields(){
-            /*
-            this.form.nom = "";
-            this.form.emplacement = "";
-            this.form.nbre_hangars = "";
-            this.form.heure_ouverture = "";
-            this.form.heure_fermeture = "";
-            this.form.categorie_produit = "";
-            this.form.isEdit = false;
-            */
-            //clear form field
+        clearFormFields(){ 
+            this.$emit("form.nom", "");
             document.querySelector('.form').reset();
+        },
+    },
+    updated(){
+        if(this.form.isEdit){ 
+            this.btnName = "Modifier le marché";
+            this.btnClass = "ui orange button submit-button"
         }
     }
   }

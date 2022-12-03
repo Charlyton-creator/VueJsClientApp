@@ -11,7 +11,7 @@
                         <th>Heure ouverture</th>
                         <th>Heure fermeture</th>
                         <th>Catégorie de Produits</th>
-                        <th style="width : 200px;">Actions</th>
+                        <th style="width : 250px;">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -20,6 +20,7 @@
                     :key="marche.id"
                     :marche="marche"
                     @onDelete="onDelete"
+                    @onEdit="onEdit"
                     />
                 </tbody>
             </table>
@@ -43,6 +44,10 @@
         onDelete(id){
             //window.console.log("marché list deleted " + id);
             this.$emit("onDelete", id);
+        },
+        onEdit(data){
+            //window.console.log("marché list edited " + data);
+            this.$emit("onEdit", data);
         }
     }
   }

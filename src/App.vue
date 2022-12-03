@@ -9,7 +9,7 @@
     <div class="ui main container">
       <MyForm :form="form" @onFormSubmit="onFormSubmit"/>
       <TheLoader v-if="loader"/>
-      <MarchesList :marches="marches" @onDelete="onDelete"/>
+      <MarchesList :marches="marches" @onDelete="onDelete" @onEdit="onEdit"/>
     </div>
   </div>
 </template>
@@ -67,6 +67,21 @@ export default {
         alert(e);
       });
     },
+    editMarche(data){
+      this.loader = true;
+      axios.put(`${this.url}/edit/${data.id}`,{
+        nom: data.nom,
+        emplacement: data.emplacement,
+        nbre_hangars: data.nbre_hangars,
+        heure_ouverture: data.heure_ouverture,
+        heure_fermeture: data.heure_fermeture,
+        categorie_produit: data.categorie_produit
+      }).then(() =>{
+        this.getMarches();
+      }).catch(e =>{
+        alert(e);
+      });
+    },
     deleteMarche(id){
       this.loader = true;
       axios.delete(`${this.url}/delete/${id}`).then(() =>{
@@ -77,11 +92,16 @@ export default {
       //window.console.log("app delete" + id);
       this.deleteMarche(id);
     },
+    onEdit(data){
+      //window.console.log("add edit ", data);
+      this.form = data;
+      this.form.isEdit = true;
+    },
     onFormSubmit(data){
       //window.console.log("app onFormSubmit", data);
       if(data.isEdit){
         //edit marché
-
+        this.editMarche(data);
       }else{
         //create marché
         this.createMarche(data);
